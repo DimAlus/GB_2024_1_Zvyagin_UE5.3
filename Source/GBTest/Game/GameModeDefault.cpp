@@ -1,10 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "GBTestGameMode.h"
-#include "../Character/GBTestCharacter.h"
+#include "GameModeDefault.h"
+#include "../Character/GameCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
-AGBTestGameMode::AGBTestGameMode()
+AGameModeDefault::AGameModeDefault()
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"));
