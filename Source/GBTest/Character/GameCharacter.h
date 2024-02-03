@@ -5,6 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+
+#include "../Lib/Typing.h"
+#include "../Component/Input/InpitBaseComponent.h"
+#include "../Component/Camera/CameraBaseComponent.h"
+#include "../Component/Movement/MovementBaseComponent.h"
+
 #include "GameCharacter.generated.h"
 
 class USpringArmComponent;
@@ -20,6 +26,16 @@ class AGameCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+public:
+	AGameCharacter();
+	
+
+protected:
+	UFUNCTION()
+	UActorComponent* CreateComponent(TSubclassOf<UActorComponent> cls);
+	UFUNCTION()
+	void InitializeComponents();
+
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
@@ -27,40 +43,38 @@ class AGameCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
-	
+
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
 
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* JumpAction;
+	/** InputComponent **/
+	UPROPERTY()
+	UInpitBaseComponent* GameInputComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<UInpitBaseComponent> InputComponentClass = UInpitBaseComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FInputComponentInitializer InputComponentInitializer;
 
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
+	/** CameraComponent **/
+	UPROPERTY()
+	UCameraBaseComponent* GameCameraComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<UCameraBaseComponent> CameraComponentClass = UCameraBaseComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FCameraComponentInitializer CameraComponentInitializer;
 
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* LookAction;
+	/** MovementComponent **/
+	UPROPERTY()
+	UMovementBaseComponent* GameMovementComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<UMovementBaseComponent> MovementComponentClass = UMovementBaseComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FMovementComponentInitializer MovementComponentInitializer;
 
-public:
-	AGameCharacter();
-	
-
-protected:
-
-	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
-
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
 			
 
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+protected:	
 	// To add mapping context
 	virtual void BeginPlay();
 
@@ -69,5 +83,13 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	/** Returns MappingContext subobject **/
+	FORCEINLINE class UInputMappingContext* GetMappingContext() const { return DefaultMappingContext; }
+	/** Returns InputComponent subobject **/
+	FORCEINLINE class UInpitBaseComponent* GetGameInputComponent() const { return GameInputComponent; }
+	/** Returns InputComponent subobject **/
+	FORCEINLINE class UCameraBaseComponent* GetGameCameraComponent() const { return GameCameraComponent; }
+	/** Returns InputComponent subobject **/
+	FORCEINLINE class UMovementBaseComponent* GetGameMovementComponent() const { return GameMovementComponent; }
 };
 
