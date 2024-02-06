@@ -13,6 +13,7 @@ class AGameModeDefault : public AGameModeBase
 
 public:
 	AGameModeDefault();
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };
 
 

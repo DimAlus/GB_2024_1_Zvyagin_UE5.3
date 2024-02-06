@@ -1,9 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "./CameraStandardComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 #include "../../Character/GameCharacter.h"
 
@@ -83,6 +81,7 @@ void UCameraStandardComponent::LookTo(const FVector2D& lookAxisVector) {
 			// add yaw and pitch input to controller
 			character->AddControllerYawInput(lookAxisVector.X);
 			character->AddControllerPitchInput(lookAxisVector.Y);
+			character->GetGameMovementComponent()->Look(character->Controller->GetControlRotation());
 		}
 	}
 }
@@ -93,11 +92,13 @@ void UCameraStandardComponent::ZoomAt(float zoom) {
 
 void UCameraStandardComponent::ZoomTo(float zoom) {
 	if (AGameCharacter* character = this->GetCharacter()) {
-		this->ZoomIsSlowing = false;
-		this->ZoomTargetLen = FMath::Clamp(zoom, data.ZoomLimits.X, data.ZoomLimits.Y);
-		this->ZoomLen = character->GetCameraBoom()->TargetArmLength;
-		if (abs(ZoomTargetLen - ZoomLen) > 0.1) {
-			this->SetComponentTickEnabled(true);
+		if (USpringArmComponent* camera = character->GetCameraBoom()) {
+			this->ZoomIsSlowing = false;
+			this->ZoomTargetLen = FMath::Clamp(zoom, data.ZoomLimits.X, data.ZoomLimits.Y);
+			this->ZoomLen = camera->TargetArmLength;
+			if (abs(ZoomTargetLen - ZoomLen) > 0.1) {
+				this->SetComponentTickEnabled(true);
+			}
 		}
 	}
 }
@@ -116,4 +117,23 @@ void UCameraStandardComponent::ZoomIncr(int direction) {
 		data.ZoomPerScroll * ZoomLimDelta *
 		-FMath::Sign(direction)
 	);
+}
+
+FVector UCameraStandardComponent::GetCameraPosition() {
+	FVector result;
+	if (AGameCharacter* character = this->GetCharacter()) {
+		if (USpringArmComponent* camera = character->GetCameraBoom())
+			result = camera->GetRelativeLocation();
+		result += character->GetActorLocation();
+	}
+	return result;
+}
+
+FVector UCameraStandardComponent::GetCameraLookVector() {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		if (character->Controller) {
+			return character->Controller->GetControlRotation().Vector();
+		}
+	}
+	return FVector();
 }

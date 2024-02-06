@@ -42,3 +42,11 @@ void UCameraBaseComponent::ZoomIncr(int direction) {
 	// Abstract Function
 }
 
+FVector UCameraBaseComponent::GetCameraPosition() {
+	return FVector();
+}
+
+FVector UCameraBaseComponent::GetCameraLookVector() {
+	return FVector();
+}
+

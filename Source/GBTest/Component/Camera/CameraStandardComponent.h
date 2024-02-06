@@ -44,4 +44,7 @@ public:
 	virtual void ZoomAtPer(float persents) override;
 	virtual void ZoomToPer(float persents) override;
 	virtual void ZoomIncr(int direction) override;
+
+	virtual FVector GetCameraPosition() override;
+	virtual FVector GetCameraLookVector() override;
 };

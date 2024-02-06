@@ -41,4 +41,9 @@ public:
 	UFUNCTION()
 	virtual void ZoomIncr(int direction);
 
+
+	UFUNCTION()
+	virtual FVector GetCameraPosition();
+	UFUNCTION()
+	virtual FVector GetCameraLookVector();
 };

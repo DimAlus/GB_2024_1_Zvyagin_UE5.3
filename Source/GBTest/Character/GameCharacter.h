@@ -10,6 +10,7 @@
 #include "../Component/Input/InpitBaseComponent.h"
 #include "../Component/Camera/CameraBaseComponent.h"
 #include "../Component/Movement/MovementBaseComponent.h"
+#include "../Component/Socium/SociumBaseComponent.h"
 
 #include "GameCharacter.generated.h"
 
@@ -32,9 +33,11 @@ public:
 
 protected:
 	UFUNCTION()
-	UActorComponent* CreateComponent(TSubclassOf<UActorComponent> cls);
+	UActorComponent* CreateComponent(TSubclassOf<UActorComponent> cls, UObject* ownerObj = nullptr);
 	UFUNCTION()
 	void InitializeComponents();
+	UFUNCTION()
+	void InitializePlayer();
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -72,6 +75,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
 	FMovementComponentInitializer MovementComponentInitializer;
 
+	/** SociumComponent **/
+	UPROPERTY()
+	USociumBaseComponent* GameSociumComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<USociumBaseComponent> SociumComponentClass = USociumBaseComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FSociumComponentInitializer SociumComponentInitializer;
+
 			
 
 protected:	
@@ -91,5 +102,7 @@ public:
 	FORCEINLINE class UCameraBaseComponent* GetGameCameraComponent() const { return GameCameraComponent; }
 	/** Returns InputComponent subobject **/
 	FORCEINLINE class UMovementBaseComponent* GetGameMovementComponent() const { return GameMovementComponent; }
+	/** Returns InputComponent subobject **/
+	FORCEINLINE class USociumBaseComponent* GetGameSociumComponent() const { return GameSociumComponent; }
 };
 

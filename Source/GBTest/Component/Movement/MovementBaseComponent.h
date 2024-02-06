@@ -37,5 +37,7 @@ public:
 	virtual void Jump();
 	UFUNCTION()
 	virtual void JumpStop();
+	UFUNCTION()
+	virtual void Look(const FRotator& direction);
 
 };
