@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Navigation/PathFollowingComponent.h"
 
 #include "../../Lib/Typing.h"
 
@@ -17,7 +18,6 @@ class GBTEST_API UMovementBaseComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UMovementBaseComponent();
 
 	UFUNCTION()
@@ -31,13 +31,15 @@ protected:
 	FMovementComponentInitializer data;
 
 public:
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual void Move(FVector2D direction);
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual void Jump();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual void JumpStop();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual void Look(const FRotator& direction);
 
+	UFUNCTION()
+	virtual EPathFollowingRequestResult::Type AiMoveTo(FVector moveTo);
 };

@@ -11,38 +11,47 @@ void UInpitStandardComponent::BeginPlay() {
 
 void UInpitStandardComponent::Binding(UEnhancedInputComponent* inputComponent) {
 	Super::Binding(inputComponent);
-	// Jumping
-	bingingHandles.Add(
-		inputComponent->BindAction(
-			this->data.JumpAction, ETriggerEvent::Started, this, &UInpitStandardComponent::JumpStart
-		).GetHandle()
-	);
-	bingingHandles.Add(
-		inputComponent->BindAction(
-			this->data.JumpAction, ETriggerEvent::Completed, this, &UInpitStandardComponent::JumpEnd
-		).GetHandle()
-	);
+	if (IsValid(this->CurrentInputComponent)) {
+		// Jumping
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.JumpAction, ETriggerEvent::Started, this, &UInpitStandardComponent::JumpStart
+			).GetHandle()
+		);
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.JumpAction, ETriggerEvent::Completed, this, &UInpitStandardComponent::JumpEnd
+			).GetHandle()
+		);
 
-	// Moving
-	bingingHandles.Add(
-		inputComponent->BindAction(
-			this->data.MoveAction, ETriggerEvent::Triggered, this, &UInpitStandardComponent::Move
-		).GetHandle()
-	);
+		// Moving
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.MoveAction, ETriggerEvent::Triggered, this, &UInpitStandardComponent::Move
+			).GetHandle()
+		);
 
-	// Looking
-	bingingHandles.Add(
-		inputComponent->BindAction(
-			this->data.LookAction, ETriggerEvent::Triggered, this, &UInpitStandardComponent::Look
-		).GetHandle()
-	);
+		// Looking
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.LookAction, ETriggerEvent::Triggered, this, &UInpitStandardComponent::Look
+			).GetHandle()
+		);
 
-	// Scrolling
-	bingingHandles.Add(
-		inputComponent->BindAction(
-			this->data.ScrollAction, ETriggerEvent::Triggered, this, &UInpitStandardComponent::Scroll
-		).GetHandle()
-	);
+		// Scrolling
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.ScrollAction, ETriggerEvent::Triggered, this, &UInpitStandardComponent::Scroll
+			).GetHandle()
+		);
+
+		// Relocation
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.RelocateAction, ETriggerEvent::Started, this, &UInpitStandardComponent::Relocate
+			).GetHandle()
+		);
+	}
 }
 
 void UInpitStandardComponent::Move(const FInputActionValue& Value) {
@@ -77,5 +86,11 @@ void UInpitStandardComponent::Look(const FInputActionValue& Value) {
 		// input is a Vector2D
 		FVector2D LookAxisVector = Value.Get<FVector2D>();
 		character->GetGameCameraComponent()->LookTo(LookAxisVector);
+	}
+}
+
+void UInpitStandardComponent::Relocate(const FInputActionValue& Value) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		character->GetGameRelocationComponent()->Relocate();
 	}
 }

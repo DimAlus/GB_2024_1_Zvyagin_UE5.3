@@ -7,11 +7,11 @@
 
 UCameraStandardComponent::UCameraStandardComponent() : UCameraBaseComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
-	this->SetComponentTickEnabled(false);
 }
 
 void UCameraStandardComponent::Initialize(FCameraComponentInitializer& initializer) {
 	Super::Initialize(initializer);
+	this->SetComponentTickEnabled(false);
 
 	// Zoom
 	if (this->data.ZoomLenSlow == 0) {

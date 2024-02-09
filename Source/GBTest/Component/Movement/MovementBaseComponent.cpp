@@ -45,3 +45,7 @@ void UMovementBaseComponent::Look(const FRotator& direction) {
 	// Abstract Function
 }
 
+EPathFollowingRequestResult::Type UMovementBaseComponent::AiMoveTo(FVector moveTo) {
+	return EPathFollowingRequestResult::Type::Failed;
+}
+

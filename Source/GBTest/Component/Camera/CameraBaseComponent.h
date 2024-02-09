@@ -42,8 +42,8 @@ public:
 	virtual void ZoomIncr(int direction);
 
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual FVector GetCameraPosition();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual FVector GetCameraLookVector();
 };

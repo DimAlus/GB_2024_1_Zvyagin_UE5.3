@@ -19,6 +19,7 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 AGameCharacter::AGameCharacter()
 {
+	AIControllerClass = nullptr;
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		
@@ -58,7 +59,27 @@ UActorComponent* AGameCharacter::CreateComponent(TSubclassOf<UActorComponent> cl
 	return component;
 }
 
+void AGameCharacter::Destroyed() {
+	if (IsValid(AIController)) {
+		AIController->Destroy();
+	}
+}
+
 void AGameCharacter::InitializeComponents() {
+	this->SetFolderPath(CharacterFolder);
+
+	AIController = GetWorld()->SpawnActor<AAIController>(AIGameControllerClass);
+	AIController->SetFolderPath(AIControllerFolder);
+
+	if (this->Controller) {
+		PlayerController = Controller;
+		Controller->SetFolderPath(ControllerFolder);
+	}
+	else {
+		AIController->Possess(this);
+		//this->PossessedBy(AIController);
+	}
+
 #ifndef CAMERA_TEST
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
@@ -69,12 +90,13 @@ void AGameCharacter::InitializeComponents() {
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->RegisterComponent();
 
-	if (this->Controller->IsPlayerController()) {
+	if (PlayerController) {
 		// Create a follow camera
 		FollowCamera = Cast<UCameraComponent>(this->CreateComponent(UCameraComponent::StaticClass(), CameraBoom));
 		FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 		FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 		FollowCamera->RegisterComponent();
+		//FollowCamera->AttachToComponent(CameraBoom, );
 	}
 #endif // CAMERA_TEST
 
@@ -93,17 +115,40 @@ void AGameCharacter::InitializeComponents() {
 	this->GameSociumComponent = Cast<USociumBaseComponent>(this->CreateComponent(this->SociumComponentClass));
 	this->GameSociumComponent->RegisterComponent();
 	this->GameSociumComponent->Initialize(this->SociumComponentInitializer);
+
+	this->GameRelocationComponent = Cast<URelocationBaseComponent>(this->CreateComponent(this->RelocationComponentClass));
+	this->GameRelocationComponent->RegisterComponent();
+	this->GameRelocationComponent->Initialize(this->RelocationComponentInitializer);
+	this->GameRelocationComponent->Deactivation();
+
 }
 
 void AGameCharacter::InitializePlayer() {
 	this->GameSociumComponent->ChangeGroup(ESocialGroup::Player);
+	this->GameRelocationComponent->Activation();
+}
+
+void AGameCharacter::InitializeAfter_Implementation() {
 }
 
 void AGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	this->InitializeComponents();
-	if (this->Controller->IsPlayerController()) {
+	if (PlayerController) {
 		this->InitializePlayer();
+	}
+	InitializeAfter();
+}
+
+void AGameCharacter::SetPlayerController(AController* newController) {
+	if (IsValid(newController)) {
+		AIController->UnPossess();
+		newController->Possess(this);
+		PossessedBy(newController);
+	}
+	else {
+		AIController->Possess(this);
+		PossessedBy(AIController);
 	}
 }

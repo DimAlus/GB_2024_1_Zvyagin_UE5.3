@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "./MovementBaseComponent.h"
+#include "Navigation/PathFollowingComponent.h"
 #include "MovementStandardComponent.generated.h"
 
 /**
@@ -25,4 +26,5 @@ public:
 	virtual void JumpStop() override;
 	virtual void Look(const FRotator& direction) override;
 
+	virtual EPathFollowingRequestResult::Type AiMoveTo(FVector moveTo) override;
 };

@@ -42,3 +42,49 @@ void USociumBaseComponent::ChangeGroup(const ESocialGroup& NewGroup) {
 		}
 	}
 }
+
+TArray<AGameCharacter*> USociumBaseComponent::GetPersons(ERelations relations, float radius, int count) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		return USocialService::GetService().GetCharacterAround(
+			CurrentGroup,
+			{ relations },
+			character->GetActorLocation(),
+			radius,
+			count,
+			{ character }
+		);
+	}
+	return TArray<AGameCharacter*>();
+}
+
+AGameCharacter* USociumBaseComponent::GetPerson(ERelations relations, float radius) {
+	TArray<AGameCharacter*> characters = this->GetPersons(relations, radius, 1);
+	if (characters.Num() > 0)
+		return characters[0];
+	return nullptr;
+}
+
+TArray<AGameCharacter*> USociumBaseComponent::GetPersonsRay(ERelations relations, float radius, float maxLength, int count) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		FVector pos = character->GetGameCameraComponent()->GetCameraPosition();
+		FVector rot = character->GetGameCameraComponent()->GetCameraLookVector();
+		return USocialService::GetService().GetCharacterByRay(
+			CurrentGroup,
+			{ relations },
+			pos,
+			rot,
+			radius,
+			maxLength,
+			count,
+			{ character }
+		);
+	}
+	return TArray<AGameCharacter*>();
+}
+
+AGameCharacter* USociumBaseComponent::GetPersonRay(ERelations relations, float radius, float maxLength) {
+	TArray<AGameCharacter*> characters = this->GetPersonsRay(relations, radius, maxLength, 1);
+	if (characters.Num() > 0)
+		return characters[0];
+	return nullptr;
+}

@@ -29,4 +29,6 @@ public:
 	void Scroll(const FInputActionValue& Value);
 	UFUNCTION()
 	void Look(const FInputActionValue& Value);
+	UFUNCTION()
+	void Relocate(const FInputActionValue& Value);
 };

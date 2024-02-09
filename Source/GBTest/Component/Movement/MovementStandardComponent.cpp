@@ -1,5 +1,6 @@
 #include "./MovementStandardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "AIController.h"
 #include "../../Character/GameCharacter.h"
 #include "../../Service/SocialService.h"
 
@@ -26,6 +27,7 @@ void UMovementStandardComponent::TickComponent(float DeltaTime, ELevelTick TickT
 		else {
 			movement->MaxWalkSpeed = data.MaxWalkSpeed;
 		}
+		
 	}
 }
 
@@ -63,4 +65,16 @@ void UMovementStandardComponent::Look(const FRotator& direction) {
 	if (AGameCharacter* character = this->GetCharacter()) {
 		character->SetActorRotation(FRotator(0, direction.Yaw, 0));
 	}
+}
+
+EPathFollowingRequestResult::Type UMovementStandardComponent::AiMoveTo(FVector moveTo) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		if (AAIController* controller = Cast<AAIController>(character->Controller)) {
+			if (controller->IsUnreachable()) {
+				return EPathFollowingRequestResult::Type::Failed;
+			}
+			return controller->MoveToLocation(moveTo);
+		}
+	}
+	return EPathFollowingRequestResult::Type::Failed;
 }

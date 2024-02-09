@@ -52,7 +52,10 @@ public:
 	UInputAction* LookAction { nullptr };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* ScrollAction { nullptr };
+	UInputAction* ScrollAction{ nullptr };
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* RelocateAction{ nullptr };
 };
 
 
@@ -117,7 +120,43 @@ public:
 };
 
 
-// Map of ESocialGroup: ERelations structure
+USTRUCT(BlueprintType)
+struct FHealthComponentInitializer {
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float MaxHealth = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float HealthRegeneration = 0.f;
+};
+
+
+USTRUCT(BlueprintType)
+struct FRelocationComponentInitializer {
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float Cooldown = 10.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float Radius = 100.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float MaxLength = 1000.f;
+
+
+};
+
+
+
+USTRUCT(BlueprintType)
+struct FControlComponentInitializer {
+	GENERATED_BODY()
+public:
+};
+
+
+/*/ Map of ESocialGroup: ERelations structure
 USTRUCT(BlueprintType)
 struct FMap_SG_Rel {
 	GENERATED_BODY()
@@ -135,4 +174,4 @@ public:
 	FSetChar() {};
 	FSetChar(TSet<AGameCharacter*> val) : Set(val) {};
 	TSet<AGameCharacter*> Set;
-};
+};*/

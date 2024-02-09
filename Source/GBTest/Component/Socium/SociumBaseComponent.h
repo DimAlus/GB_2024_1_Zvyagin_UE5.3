@@ -37,4 +37,14 @@ protected:
 public:
 	UFUNCTION()
 	virtual void ChangeGroup(const ESocialGroup& NewGroup);
+
+	UFUNCTION(BlueprintCallable)
+	virtual TArray<AGameCharacter*> GetPersons(ERelations relations, float radius, int count);
+	UFUNCTION(BlueprintCallable)
+	virtual AGameCharacter* GetPerson(ERelations relations, float radius);
+
+	UFUNCTION(BlueprintCallable)
+	virtual TArray<AGameCharacter*> GetPersonsRay(ERelations relations, float radius, float maxLength, int count);
+	UFUNCTION(BlueprintCallable)
+	virtual AGameCharacter* GetPersonRay(ERelations relations, float radius, float maxLength);
 };

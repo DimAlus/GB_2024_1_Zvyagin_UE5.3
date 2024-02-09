@@ -11,7 +11,7 @@ void UInpitBaseComponent::BeginPlay() {
 
 	if (AGameCharacter* character = this->GetCharacter()) {
 
-		if (character->Controller) {
+		if (character->Controller && character->Controller->IsPlayerController()) {
 			if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(character->Controller->InputComponent)) {
 				this->Binding(EnhancedInputComponent);
 			}

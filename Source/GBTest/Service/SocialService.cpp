@@ -76,6 +76,8 @@ TArray<AGameCharacter*> USocialService::GetCharacterByRay(ESocialGroup myGroup, 
 	}
 	for (auto& myRelations : this->RelationsData[myGroup]) {
 		if (relations.Contains(myRelations.Value)) {
+			if (!this->Society.Contains(myRelations.Key))
+				continue;
 			for (AGameCharacter* target : this->Society[myRelations.Key]) {
 				// if not valid or ignored
 				if (!IsValid(target) || ignore.Contains(target)) {
@@ -89,7 +91,8 @@ TArray<AGameCharacter*> USocialService::GetCharacterByRay(ESocialGroup myGroup, 
 				// Length between line and point is |targetRelativeLoc X guide| / len(guide)
 				float len = guide.Cross(targetRelativeLoc).Length() / guide.Length();
 				if (len < radius) {
-					elements.Add(targetRelativeLoc.Length(), target);
+					elements.Add(len, target);
+					// elements.Add(targetRelativeLoc.Length(), target);
 				}
 			}
 		}
@@ -116,6 +119,8 @@ TArray<AGameCharacter*> USocialService::GetCharacterAround(ESocialGroup myGroup,
 	TSortedMap<float, AGameCharacter*> elements;
 	for (auto& myRelations : this->RelationsData[myGroup]) {
 		if (relations.Contains(myRelations.Value)) {
+			if (!this->Society.Contains(myRelations.Key))
+				continue;
 			for (AGameCharacter* target : this->Society[myRelations.Key]) {
 				// if not valid or ignored
 				if (!(IsValid(target) && !ignore.Contains(target))) {
