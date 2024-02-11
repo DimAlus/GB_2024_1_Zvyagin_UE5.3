@@ -29,3 +29,7 @@ float UHealthBaseComponent::GetHealthPercents() {
 float UHealthBaseComponent::GetMaxHealth() {
 	return data.MaxHealth;
 }
+
+void UHealthBaseComponent::TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power) {
+	// Abstract Function
+}

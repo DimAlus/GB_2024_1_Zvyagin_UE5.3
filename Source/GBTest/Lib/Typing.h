@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "InputAction.h"
+#include "Styling/SlateBrush.h"
 
 #include "Typing.generated.h"
 
@@ -37,6 +38,10 @@ enum class ERelations : uint8 {
 	Neutral UMETA(DisplayName = "Neutral")
 };
 
+UENUM(BlueprintType)
+enum class ETypeDamage : uint8 {
+	Damage UMETA(DisplayName = "Damege")
+};
 
 USTRUCT(BlueprintType)
 struct FInputComponentInitializer {
@@ -131,8 +136,9 @@ public:
 };
 
 
+
 USTRUCT(BlueprintType)
-struct FRelocationComponentInitializer {
+struct FWeaponComponentInitializer {
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
@@ -150,9 +156,17 @@ public:
 
 
 USTRUCT(BlueprintType)
-struct FControlComponentInitializer {
+struct FIconInitializer {
 	GENERATED_BODY()
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Icon)
+	FSlateBrush ForeTexture;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Icon)
+	FSlateBrush BackTexture;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Icon)
+	FText HelpText;
 };
 
 

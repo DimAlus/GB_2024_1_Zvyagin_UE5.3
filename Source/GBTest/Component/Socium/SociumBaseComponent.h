@@ -7,6 +7,8 @@
 
 #include "SociumBaseComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSocialGroupChangeSignature, ESocialGroup, NewGroup);
+
 class AGameCharacter;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -32,6 +34,7 @@ protected:
 	FSociumComponentInitializer data;
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	ESocialGroup CurrentGroup;
 
 public:
@@ -47,4 +50,9 @@ public:
 	virtual TArray<AGameCharacter*> GetPersonsRay(ERelations relations, float radius, float maxLength, int count);
 	UFUNCTION(BlueprintCallable)
 	virtual AGameCharacter* GetPersonRay(ERelations relations, float radius, float maxLength);
+
+
+	/** Call if other character ends targeting to this */
+	UPROPERTY(BlueprintAssignable)
+	FSocialGroupChangeSignature OnChangeSocialGroup;
 };

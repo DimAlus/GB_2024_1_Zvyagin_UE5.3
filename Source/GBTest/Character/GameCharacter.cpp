@@ -116,11 +116,23 @@ void AGameCharacter::InitializeComponents() {
 	this->GameSociumComponent->RegisterComponent();
 	this->GameSociumComponent->Initialize(this->SociumComponentInitializer);
 
-	this->GameRelocationComponent = Cast<URelocationBaseComponent>(this->CreateComponent(this->RelocationComponentClass));
+	this->GameHealthComponent = Cast<UHealthBaseComponent>(this->CreateComponent(this->HealthComponentClass));
+	this->GameHealthComponent->RegisterComponent();
+	this->GameHealthComponent->Initialize(this->HealthComponentInitializer);
+
+
+	this->GameRelocationComponent = Cast<URelocationStandardComponent>(this->CreateComponent(this->RelocationComponentClass));
 	this->GameRelocationComponent->RegisterComponent();
 	this->GameRelocationComponent->Initialize(this->RelocationComponentInitializer);
 	this->GameRelocationComponent->Deactivation();
 
+	this->GameWeaponMainComponent = Cast<UWeaponBaseComponent>(this->CreateComponent(this->WeaponMainComponentClass));
+	this->GameWeaponMainComponent->RegisterComponent();
+	this->GameWeaponMainComponent->Initialize(this->WeaponMainComponentInitializer);
+
+	this->GameWeaponAddComponent = Cast<UWeaponBaseComponent>(this->CreateComponent(this->WeaponAddComponentClass));
+	this->GameWeaponAddComponent->RegisterComponent();
+	this->GameWeaponAddComponent->Initialize(this->WeaponAddComponentInitializer);
 }
 
 void AGameCharacter::InitializePlayer() {

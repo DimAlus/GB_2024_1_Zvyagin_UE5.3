@@ -91,6 +91,6 @@ void UInpitStandardComponent::Look(const FInputActionValue& Value) {
 
 void UInpitStandardComponent::Relocate(const FInputActionValue& Value) {
 	if (AGameCharacter* character = this->GetCharacter()) {
-		character->GetGameRelocationComponent()->Relocate();
+		character->GetGameRelocationComponent()->Shoot();
 	}
 }

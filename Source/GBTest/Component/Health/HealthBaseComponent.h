@@ -37,4 +37,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual float GetMaxHealth();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power);
 };

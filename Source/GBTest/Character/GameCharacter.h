@@ -11,7 +11,9 @@
 #include "../Component/Camera/CameraBaseComponent.h"
 #include "../Component/Movement/MovementBaseComponent.h"
 #include "../Component/Socium/SociumBaseComponent.h"
-#include "../Component/Relocation/RelocationBaseComponent.h"
+#include "../Component/Weapon/RelocationStandardComponent.h"
+#include "../Component/Health/HealthBaseComponent.h"
+#include "../Component/Weapon/WeaponBaseComponent.h"
 
 #include "GameCharacter.generated.h"
 
@@ -101,15 +103,45 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
 	FSociumComponentInitializer SociumComponentInitializer;
 
-	/** RelocationComponent **/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, BlueprintGetter = GetGameRelocationComponent, meta = (AllowPrivateAccess = "true"))
-	URelocationBaseComponent* GameRelocationComponent;
+	/** HealthComponent **/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UHealthBaseComponent* GameHealthComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
-	TSubclassOf<URelocationBaseComponent> RelocationComponentClass = URelocationBaseComponent::StaticClass();
+	TSubclassOf<UHealthBaseComponent> HealthComponentClass = UHealthBaseComponent::StaticClass();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
-	FRelocationComponentInitializer RelocationComponentInitializer;
+	FHealthComponentInitializer HealthComponentInitializer;
 			
 
+
+	/** RelocationComponent **/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	URelocationStandardComponent* GameRelocationComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<URelocationStandardComponent> RelocationComponentClass = URelocationStandardComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FWeaponComponentInitializer RelocationComponentInitializer;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FIconInitializer RelocationIconInitializer;
+
+	/** MainWeaponComponent **/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UWeaponBaseComponent* GameWeaponMainComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<UWeaponBaseComponent> WeaponMainComponentClass = UWeaponBaseComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FWeaponComponentInitializer WeaponMainComponentInitializer;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FIconInitializer WeaponMainIconInitializer;
+
+	/** AddWeaponComponent **/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UWeaponBaseComponent* GameWeaponAddComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	TSubclassOf<UWeaponBaseComponent> WeaponAddComponentClass = UWeaponBaseComponent::StaticClass();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FWeaponComponentInitializer WeaponAddComponentInitializer;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components Initialization")
+	FIconInitializer WeaponAddIconInitializer;
 protected:	
 	// To add mapping context
 	virtual void BeginPlay();
@@ -133,9 +165,14 @@ public:
 	FORCEINLINE class UMovementBaseComponent* GetGameMovementComponent() const { return GameMovementComponent; }
 	/** Returns InputComponent subobject **/
 	FORCEINLINE class USociumBaseComponent* GetGameSociumComponent() const { return GameSociumComponent; }
+	/** Returns HealthComponent subobject **/
+	FORCEINLINE class UHealthBaseComponent* GetGameHealthComponent() const { return GameHealthComponent; }
 	/** Returns InputComponent subobject **/
-	UFUNCTION(BlueprintGetter)
-	URelocationBaseComponent* GetGameRelocationComponent() const { return GameRelocationComponent; }
+	FORCEINLINE class URelocationStandardComponent* GetGameRelocationComponent() const { return GameRelocationComponent; }
+	/** Returns HealthComponent subobject **/
+	FORCEINLINE class UWeaponBaseComponent* GetGameWeaponMainComponent() const { return GameWeaponMainComponent; }
+	/** Returns HealthComponent subobject **/
+	FORCEINLINE class UWeaponBaseComponent* GetGameWeaponAddComponent() const { return GameWeaponAddComponent; }
 
 };
 

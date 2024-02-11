@@ -46,7 +46,7 @@ void URelocationStandardComponent::DetachToCharacter(AGameCharacter* target) {
 	}
 }
 
-void URelocationStandardComponent::Relocate() {
+void URelocationStandardComponent::Shoot() {
 	if (IsValid(currentTarget) && Cooldown < 0.1) {
 		if (AGameCharacter* character = this->GetCharacter()) {
 			character->GetGameInputComponent()->Binding(nullptr);
@@ -54,6 +54,8 @@ void URelocationStandardComponent::Relocate() {
 			TObjectPtr<AController> controller = character->Controller;
 
 			UCameraComponent* camera = character->GetFollowCamera();
+			character->SetPlayerController(nullptr);
+			character->SetFollowCamera(nullptr);
 			if (camera) {
 				camera->UnregisterComponent();
 				camera->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
@@ -61,11 +63,9 @@ void URelocationStandardComponent::Relocate() {
 				camera->AttachToComponent(currentTarget->GetCameraBoom(), FAttachmentTransformRules::KeepRelativeTransform, USpringArmComponent::SocketName);
 				camera->ReregisterComponent();
 			}
-			character->SetFollowCamera(nullptr);
 			currentTarget->SetFollowCamera(camera);
 		
 			
-			character->SetPlayerController(nullptr);
 			currentTarget->SetPlayerController(controller);
 
 

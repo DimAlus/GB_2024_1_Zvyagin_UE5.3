@@ -13,5 +13,14 @@ UCLASS()
 class GBTEST_API UHealthStandardComponent : public UHealthBaseComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void Initialize(FHealthComponentInitializer& initializer) override;
+
+protected:
+	float CurrentHealth;
+
+public:
+	virtual float GetHealth() override;
+	virtual void TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power) override;
 };

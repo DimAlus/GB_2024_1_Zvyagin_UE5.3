@@ -39,6 +39,7 @@ void USociumBaseComponent::ChangeGroup(const ESocialGroup& NewGroup) {
 		if (NewGroup != CurrentGroup) {
 			USocialService::GetService().ChangeGroup(character, CurrentGroup, NewGroup);
 			CurrentGroup = NewGroup;
+			OnChangeSocialGroup.Broadcast(NewGroup);
 		}
 	}
 }

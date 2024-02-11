@@ -3,3 +3,15 @@
 
 #include "./HealthStandardComponent.h"
 
+void UHealthStandardComponent::Initialize(FHealthComponentInitializer& initializer) {
+    Super::Initialize(initializer);
+    CurrentHealth = initializer.MaxHealth;
+}
+
+float UHealthStandardComponent::GetHealth() {
+    return CurrentHealth;
+}
+
+void UHealthStandardComponent::TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power) {
+    CurrentHealth -= power;
+}
