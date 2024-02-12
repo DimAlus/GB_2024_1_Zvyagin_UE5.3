@@ -5,6 +5,7 @@
 | Платформа   | UE 5.3 / c++         |
 | Жанр        | Шутер от 3-го лица   |
 | Тематика    | Адаптация / Контроль |
+| Ссылка на видеообзор | [Ссылка](https://drive.google.com/file/d/1WOUhFoeCJVZEhmhwrE5acysY9e_5vg2v/view?usp=sharing) |
 
 # Геймплей
 
