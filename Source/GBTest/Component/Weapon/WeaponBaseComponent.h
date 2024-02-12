@@ -29,7 +29,7 @@ protected:
 	UPROPERTY()
 	FWeaponComponentInitializer data;
 
-
+	bool IsShooting = false;
 	float Cooldown;
 public:
 
@@ -54,6 +54,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Shoot();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void ShootStart();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void ShootEnd();
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Recharge();

@@ -34,6 +34,18 @@ void USociumBaseComponent::BeginPlay() {
 	}
 }
 
+ESocialGroup USociumBaseComponent::GetSocialGroup() {
+	return CurrentGroup;
+}
+
+void USociumBaseComponent::RemoveFromSociety() {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		USocialService::GetService().RemoveFromGroup(character, CurrentGroup);
+		
+	}
+
+}
+
 void USociumBaseComponent::ChangeGroup(const ESocialGroup& NewGroup) {
 	if (AGameCharacter* character = this->GetCharacter()) {
 		if (NewGroup != CurrentGroup) {

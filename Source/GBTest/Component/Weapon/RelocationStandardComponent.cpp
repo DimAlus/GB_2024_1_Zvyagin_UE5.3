@@ -15,7 +15,7 @@ URelocationStandardComponent::URelocationStandardComponent() {
 void URelocationStandardComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	if (AGameCharacter* character = this->GetCharacter()) {
 		this->Cooldown = std::max(0.f, this->Cooldown - DeltaTime);
-		if (Cooldown < 0.1) {
+		if (Cooldown < 0.01) {
 			AGameCharacter* target = character->GetGameSociumComponent()->GetPersonRay(ERelations::Enemy, data.Radius, data.MaxLength);
 			if (target != currentTarget) {
 				DetachToCharacter(currentTarget);
@@ -47,11 +47,14 @@ void URelocationStandardComponent::DetachToCharacter(AGameCharacter* target) {
 }
 
 void URelocationStandardComponent::Shoot() {
-	if (IsValid(currentTarget) && Cooldown < 0.1) {
+	if (IsValid(currentTarget) && Cooldown < 0.01) {
 		if (AGameCharacter* character = this->GetCharacter()) {
 			character->GetGameInputComponent()->Binding(nullptr);
 
 			TObjectPtr<AController> controller = character->Controller;
+
+			character->GetGameWeaponMainComponent()->ShootEnd();
+			character->GetGameWeaponAddComponent()->ShootEnd();
 
 			UCameraComponent* camera = character->GetFollowCamera();
 			character->SetPlayerController(nullptr);

@@ -39,6 +39,12 @@ protected:
 
 public:
 	UFUNCTION()
+	ESocialGroup GetSocialGroup();
+
+	UFUNCTION()
+	virtual void RemoveFromSociety();
+
+	UFUNCTION()
 	virtual void ChangeGroup(const ESocialGroup& NewGroup);
 
 	UFUNCTION(BlueprintCallable)

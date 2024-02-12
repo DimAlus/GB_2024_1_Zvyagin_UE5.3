@@ -33,3 +33,10 @@ float UHealthBaseComponent::GetMaxHealth() {
 void UHealthBaseComponent::TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power) {
 	// Abstract Function
 }
+
+void UHealthBaseComponent::Death_Implementation() {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		character->GetGameSociumComponent()->RemoveFromSociety();
+		character->Destroy();
+	}
+}

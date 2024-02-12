@@ -55,6 +55,14 @@ void USocialService::RemoveFromGroup(AGameCharacter* character, ESocialGroup gro
 	Society[group].Remove(character);
 }
 
+ERelations USocialService::GetRelations(ESocialGroup gr1, ESocialGroup gr2) {
+	if (this->RelationsData.Contains(gr1) &&
+		this->RelationsData[gr1].Contains(gr2)) {
+		return this->RelationsData[gr1][gr2];
+	}
+	return ERelations::Neutral;
+}
+
 void USocialService::ClearService() {
 	Society.Reset();
 }

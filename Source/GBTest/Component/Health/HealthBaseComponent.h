@@ -40,4 +40,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void Death();
 };

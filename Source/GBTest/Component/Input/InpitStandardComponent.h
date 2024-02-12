@@ -30,5 +30,13 @@ public:
 	UFUNCTION()
 	void Look(const FInputActionValue& Value);
 	UFUNCTION()
+	void Shoot1Start(const FInputActionValue& Value);
+	UFUNCTION()
+	void Shoot1End(const FInputActionValue& Value);
+	UFUNCTION()
+	void Shoot2Start(const FInputActionValue& Value);
+	UFUNCTION()
+	void Shoot2End(const FInputActionValue& Value);
+	UFUNCTION()
 	void Relocate(const FInputActionValue& Value);
 };

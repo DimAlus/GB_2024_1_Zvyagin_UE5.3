@@ -45,6 +45,30 @@ void UInpitStandardComponent::Binding(UEnhancedInputComponent* inputComponent) {
 			).GetHandle()
 		);
 
+		// Shoot1
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.Shoot1Action, ETriggerEvent::Started, this, &UInpitStandardComponent::Shoot1Start
+			).GetHandle()
+		);
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.Shoot1Action, ETriggerEvent::Completed, this, &UInpitStandardComponent::Shoot1End
+			).GetHandle()
+		);
+
+		// Shoot2
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.Shoot2Action, ETriggerEvent::Started, this, &UInpitStandardComponent::Shoot2Start
+			).GetHandle()
+		);
+		bingingHandles.Add(
+			this->CurrentInputComponent->BindAction(
+				this->data.Shoot2Action, ETriggerEvent::Completed, this, &UInpitStandardComponent::Shoot2End
+			).GetHandle()
+		);
+
 		// Relocation
 		bingingHandles.Add(
 			this->CurrentInputComponent->BindAction(
@@ -86,6 +110,30 @@ void UInpitStandardComponent::Look(const FInputActionValue& Value) {
 		// input is a Vector2D
 		FVector2D LookAxisVector = Value.Get<FVector2D>();
 		character->GetGameCameraComponent()->LookTo(LookAxisVector);
+	}
+}
+
+void UInpitStandardComponent::Shoot1Start(const FInputActionValue& Value) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		character->GetGameWeaponMainComponent()->ShootStart();
+	}
+}
+
+void UInpitStandardComponent::Shoot1End(const FInputActionValue& Value) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		character->GetGameWeaponMainComponent()->ShootEnd();
+	}
+}
+
+void UInpitStandardComponent::Shoot2Start(const FInputActionValue& Value) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		character->GetGameWeaponAddComponent()->ShootStart();
+	}
+}
+
+void UInpitStandardComponent::Shoot2End(const FInputActionValue& Value) {
+	if (AGameCharacter* character = this->GetCharacter()) {
+		character->GetGameWeaponAddComponent()->ShootEnd();
 	}
 }
 

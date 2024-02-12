@@ -13,5 +13,7 @@ float UHealthStandardComponent::GetHealth() {
 }
 
 void UHealthStandardComponent::TakeDamage(AGameCharacter* otherCharacter, ETypeDamage typeDamage, float power) {
-    CurrentHealth -= power;
+    if ((CurrentHealth -= power) <= 0) {
+        Death();
+    }
 }

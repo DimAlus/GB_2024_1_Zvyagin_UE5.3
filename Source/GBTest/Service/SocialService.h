@@ -34,6 +34,8 @@ public:
 	void ChangeGroup(AGameCharacter* character, ESocialGroup groupFrom, ESocialGroup groupTo);
 	void RemoveFromGroup(AGameCharacter* character, ESocialGroup group);
 
+	ERelations GetRelations(ESocialGroup gr1, ESocialGroup gr2);
+
 	void ClearService();
 	
 	/**

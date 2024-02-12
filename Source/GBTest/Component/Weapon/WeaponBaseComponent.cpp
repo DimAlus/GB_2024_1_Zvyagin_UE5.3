@@ -31,7 +31,7 @@ float UWeaponBaseComponent::GetCooldownMax() {
 }
 
 bool UWeaponBaseComponent::CanShoot() {
-	return Cooldown < 0.1;
+	return Cooldown < 0.01;
 }
 
 bool UWeaponBaseComponent::CanShootTo(FVector location) {
@@ -44,6 +44,14 @@ void UWeaponBaseComponent::ShootTo(FVector location) {
 
 void UWeaponBaseComponent::Shoot() {
 	// Abstract Function
+}
+
+void UWeaponBaseComponent::ShootStart() {
+	IsShooting = true;
+}
+
+void UWeaponBaseComponent::ShootEnd() {
+	IsShooting = false;
 }
 
 void UWeaponBaseComponent::Recharge() {

@@ -12,6 +12,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateComponents, Log, All);
 
 class AGameCharacter;
+class AProjectileBase;
 
 UCLASS()
 class GBTEST_API UTyping : public UBlueprintFunctionLibrary
@@ -57,10 +58,16 @@ public:
 	UInputAction* LookAction { nullptr };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* ScrollAction{ nullptr };
+	UInputAction* ScrollAction { nullptr };
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	UInputAction* RelocateAction{ nullptr };
+	UInputAction* Shoot1Action { nullptr };
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* Shoot2Action { nullptr };
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* RelocateAction { nullptr };
 };
 
 
@@ -138,18 +145,60 @@ public:
 
 
 USTRUCT(BlueprintType)
+struct FProjectileInitializer {
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	float Speed = 10.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	float Gravity = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	float DespawnTime = 3.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	bool isRadial = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	float Radius = 100.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	float Damage = 10.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	bool DestroyOnTouch = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	int CountTouch = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Projectile)
+	TSet<ERelations> TargetRelations = {};
+
+};
+
+
+USTRUCT(BlueprintType)
 struct FWeaponComponentInitializer {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	float Cooldown = 10.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	float Radius = 100.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
 	float MaxLength = 1000.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	TSubclassOf<AProjectileBase> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	FVector ProjectileSpawnLocation = {};
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Weapon)
+	FProjectileInitializer ProjectileInitializer = {};
 
 };
 
@@ -167,25 +216,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Icon)
 	FText HelpText;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Icon)
+	bool IsProgress;
 };
-
-
-/*/ Map of ESocialGroup: ERelations structure
-USTRUCT(BlueprintType)
-struct FMap_SG_Rel {
-	GENERATED_BODY()
-public:
-	FMap_SG_Rel() {};
-	FMap_SG_Rel(TMap<ESocialGroup, ERelations> val) : Map(val) {};
-	TMap<ESocialGroup, ERelations> Map;
-};
-
-// Set of AGameCharacter structure
-USTRUCT(BlueprintType)
-struct FSetChar {
-	GENERATED_BODY()
-public:
-	FSetChar() {};
-	FSetChar(TSet<AGameCharacter*> val) : Set(val) {};
-	TSet<AGameCharacter*> Set;
-};*/
