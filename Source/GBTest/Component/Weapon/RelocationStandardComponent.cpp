@@ -78,7 +78,7 @@ void URelocationStandardComponent::Shoot() {
 
 			currentTarget->GetGameRelocationComponent()->Activation();
 
-			character->GetGameSociumComponent()->ChangeGroup(ESocialGroup::Enemy);
+			character->GetGameSociumComponent()->ChangeGroup(ESocialGroup::Associate);
 			currentTarget->GetGameSociumComponent()->ChangeGroup(ESocialGroup::Player);
 
 			Deactivation();
